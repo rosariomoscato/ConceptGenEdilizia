@@ -8,21 +8,21 @@
       href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
     />
 
-    <title>Stitch Design</title>
+    <title>Archive - ConceptGen Edilizia</title>
     <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
 
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link rel="stylesheet" href="/static/css/style.css"> <!-- Link to custom CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries,typography"></script> 
+    <link rel="stylesheet" href="/static/css/style.css"> 
   </head>
-  <body>
-    <div class="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden" style='font-family: Inter, "Noto Sans", sans-serif;'>
+  <body class="bg-slate-900 text-slate-200">
+    <div class="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden" style='font-family: Inter, "Noto Sans", sans-serif;'>
       <div class="layout-container flex h-full grow flex-col">
-        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e7edf4] px-10 py-3">
-          <div class="flex items-center gap-4 text-[#0d151c]">
-            <a href="/" class="flex items-center gap-4 text-[#0d151c] hover:opacity-80 transition-opacity">
-              <div class="size-4">
+        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-700 px-10 py-3 bg-slate-800">
+          <div class="flex items-center gap-4 text-slate-100">
+            <a href="/" class="flex items-center gap-4 text-slate-100 hover:opacity-80 transition-opacity" title="Go to Home Page">
+              <div class="size-4 text-cyan-400">
                 <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <g clip-path="url(#clip0_6_543)">
+                  <g clip-path="url(#clip0_6_543_archive)"> 
                     <path
                       d="M42.1739 20.1739L27.8261 5.82609C29.1366 7.13663 28.3989 10.1876 26.2002 13.7654C24.8538 15.9564 22.9595 18.3449 20.6522 20.6522C18.3449 22.9595 15.9564 24.8538 13.7654 26.2002C10.1876 28.3989 7.13663 29.1366 5.82609 27.8261L20.1739 42.1739C21.4845 43.4845 24.5355 42.7467 28.1133 40.548C30.3042 39.2016 32.6927 37.3073 35 35C37.3073 32.6927 39.2016 30.3042 40.548 28.1133C42.7467 24.5355 43.4845 21.4845 42.1739 20.1739Z"
                       fill="currentColor"
@@ -35,54 +35,49 @@
                     ></path>
                   </g>
                   <defs>
-                    <clipPath id="clip0_6_543"><rect width="48" height="48" fill="white"></rect></clipPath>
+                    <clipPath id="clip0_6_543_archive"><rect width="48" height="48" fill="white"></rect></clipPath>
                   </defs>
                 </svg>
               </div>
-              <h2 class="text-[#0d151c] text-lg font-bold leading-tight tracking-[-0.015em]">ConceptGen Edilizia</h2>
+              <h2 class="text-slate-100 text-lg font-bold leading-tight tracking-[-0.015em]">ConceptGen Edilizia</h2>
             </a>
           </div>
-          <div class="flex flex-1 justify-end gap-8">
-            <div class="flex items-center gap-9">
-              <a id="homeLinkButton" class="text-[#0d151c] text-sm font-medium leading-normal hover:text-sky-700 transition-colors" href="/">Home</a>
-            </div>
-            <button
-              class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 bg-[#e7edf4] text-[#0d151c] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 hover:bg-gray-200 transition-colors"
+          <div class="flex flex-1 justify-end gap-2">
+            <a id="homeLinkButtonArchivePage" href="/" class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 bg-slate-700 text-slate-100 gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-3 hover:bg-slate-600 transition-colors" title="Home">
+                <div class="text-slate-100" data-icon="Home" data-size="20px" data-weight="regular">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256"><path d="M128,20A108,108,0,1,0,236,128,108.12,108.12,0,0,0,128,20Zm0,192a84,84,0,1,1,84-84A84.09,84.09,0,0,1,128,212Zm52-96.55L135.42,156a8,8,0,0,1-10.84,0L79.13,116.54a8,8,0,0,1,5.42-14.54H104V76a8,8,0,0,1,16,0v26h20.45a8,8,0,0,1,5.42,14.54Z"></path></svg>
+                </div>
+                <span class="truncate">Home</span>
+            </a>
+            <a
+              id="headerHelpLinkArchivePage"
+              href="/help.html"
+              class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 bg-slate-700 text-slate-100 gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 hover:bg-slate-600 transition-colors"
+              title="Help"
             >
-              <div class="text-[#0d151c]" data-icon="Question" data-size="20px" data-weight="regular">
+              <div class="text-slate-100" data-icon="Question" data-size="20px" data-weight="regular">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
                   <path
                     d="M140,180a12,12,0,1,1-12-12A12,12,0,0,1,140,180ZM128,72c-22.06,0-40,16.15-40,36v4a8,8,0,0,0,16,0v-4c0-11,10.77-20,24-20s24,9,24,20-10.77,20-24,20a8,8,0,0,0-8,8v8a8,8,0,0,0,16,0v-.72c18.24-3.35,32-17.9,32-35.28C168,88.15,150.06,72,128,72Zm104,56A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"
                   ></path>
                 </svg>
               </div>
-            </button>
+            </a>
           </div>
         </header>
-        <div class="px-40 flex flex-1 justify-center py-5">
+        <main class="px-4 sm:px-10 md:px-20 lg:px-40 flex flex-1 justify-center py-5">
           <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
             <div class="flex flex-wrap justify-between gap-3 p-4">
-              <p class="text-[#0d151c] tracking-light text-[32px] font-bold leading-tight min-w-72">Archive</p>
+              <p class="text-slate-100 tracking-light text-[32px] font-bold leading-tight min-w-72">Archive</p>
             </div>
             <div id="archiveGrid" class="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6 p-4">
-              <!-- Archive items will be dynamically inserted here by archive.js -->
-              <!-- Example of one card (to be removed by JS) -->
-              <div class="flex flex-col gap-3 pb-3">
-                <div
-                  class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl bg-gray-200"
-                  style='background-image: url("");'
-                ></div>
-                <div>
-                  <p class="text-[#0d151c] text-base font-medium leading-normal">Loading item...</p>
-                  <p class="text-[#49749c] text-sm font-normal leading-normal">Please wait.</p>
-                </div>
-              </div>
-               <!-- End of example card -->
+              <div class="text-center col-span-full p-5 text-slate-400">Loading archived concepts...</div>
             </div>
           </div>
-        </div>
+        </main>
       </div>
     </div>
-    <script src="/static/js/archive.js"></script> <!-- Link to the JavaScript file -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> 
+    <script src="/static/js/archive.js"></script> 
   </body>
 </html>

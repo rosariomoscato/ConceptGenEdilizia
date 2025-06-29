@@ -1,20 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const archiveGrid = document.getElementById('archiveGrid'); // Add ID to the grid container
-    const homeButton = document.getElementById('homeLinkButton'); // Add ID to home button in header
-
-    if (homeButton) {
-        homeButton.addEventListener('click', (e) => {
-            e.preventDefault(); // Prevent default anchor behavior
-            window.location.href = '/'; // Navigate to home page (index.html)
-        });
-    }
+    const archiveGrid = document.getElementById('archiveGrid'); 
+    
+    // Header links - using direct hrefs in HTML is simpler, so JS listeners for these are commented out.
+    // const homeLinkButtonArchive = document.getElementById('homeLinkButtonArchivePage'); 
+    // const helpLinkButtonArchive = document.getElementById('headerHelpLinkArchivePage'); 
+    // if (homeLinkButtonArchive) {
+    //     homeLinkButtonArchive.addEventListener('click', (e) => {
+    //         e.preventDefault(); 
+    //         window.location.href = homeLinkButtonArchive.href; 
+    //     });
+    // }
+    // if (helpLinkButtonArchive) {
+    //     helpLinkButtonArchive.addEventListener('click', (e) => {
+    //         e.preventDefault();
+    //         window.location.href = helpLinkButtonArchive.href;
+    //     });
+    // }
 
     async function fetchAndDisplayArchive() {
         if (!archiveGrid) {
             console.error("Archive grid container not found.");
             return;
         }
-        archiveGrid.innerHTML = '<p class="text-center col-span-full">Loading archived concepts...</p>';
+        // Updated loading message to match dark theme
+        archiveGrid.innerHTML = '<p class="text-center col-span-full p-5 text-slate-400">Loading archived concepts...</p>';
 
         try {
             const response = await fetch('/api/archive');
@@ -26,35 +35,49 @@ document.addEventListener('DOMContentLoaded', () => {
             const concepts = await response.json();
 
             if (concepts.length === 0) {
-                archiveGrid.innerHTML = '<p class="text-center col-span-full">No concepts have been archived yet.</p>';
+                archiveGrid.innerHTML = '<p class="text-center col-span-full p-5 text-slate-400">No concepts have been archived yet.</p>';
                 return;
             }
 
-            archiveGrid.innerHTML = ''; // Clear loading message
+            archiveGrid.innerHTML = ''; 
 
             concepts.forEach(concept => {
                 const conceptCard = document.createElement('div');
-                conceptCard.className = 'flex flex-col gap-3 pb-3';
+                // Updated card background and text colors for dark theme
+                conceptCard.className = 'flex flex-col gap-3 pb-3 bg-slate-800 p-4 rounded-lg shadow-lg hover:shadow-cyan-500/30 transition-shadow'; 
 
-                // Image(s) - display first one if multiple
-                let imagesHTML = '<div class="w-full bg-gray-200 aspect-video rounded-xl flex items-center justify-center"><p class="text-gray-500">No image</p></div>';
+                let imagesHTML = '<div class="w-full bg-slate-700 aspect-video rounded-xl flex items-center justify-center"><p class="text-slate-500 text-sm">No image</p></div>';
                 if (concept.gemini_image_urls && concept.gemini_image_urls.length > 0) {
-                    // For simplicity, we'll just show the first image.
-                    // A more advanced version could have a carousel or show multiple thumbnails.
                     imagesHTML = `
                         <div
-                          class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl"
+                          class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl border border-slate-700"
                           style="background-image: url('${concept.gemini_image_urls[0]}');"
                           aria-label="Visualization for ${concept.prompt}"
                         ></div>`;
                 }
+                
+                let flowiseHTML = '<p class="text-slate-400">No detailed concept text.</p>';
+                if (concept.flowise_response) {
+                    if (typeof marked !== 'undefined') {
+                        flowiseHTML = marked.parse(concept.flowise_response);
+                    } else {
+                        const escapedText = concept.flowise_response
+                            .replace(/&/g, "&amp;")
+                            .replace(/</g, "&lt;")
+                            .replace(/>/g, "&gt;")
+                            .replace(/"/g, "&quot;")
+                            .replace(/'/g, "&#039;");
+                        flowiseHTML = `<div class="whitespace-pre-wrap">${escapedText}</div>`;
+                    }
+                }
 
-                // Text content
                 const textContentHTML = `
                     <div>
-                        <p class="text-[#0d151c] text-base font-medium leading-normal truncate" title="${concept.prompt}">Prompt: ${concept.prompt}</p>
-                        <p class="text-[#49749c] text-sm font-normal leading-normal line-clamp-3" title="${concept.flowise_response}">Concept: ${concept.flowise_response}</p>
-                        <p class="text-gray-500 text-xs mt-1">Archived: ${new Date(concept.timestamp).toLocaleString()}</p>
+                        <h3 class="text-slate-100 text-base font-semibold leading-tight truncate mb-1" title="${concept.prompt}">Prompt: ${concept.prompt}</h3>
+                        <div class="text-slate-300 text-sm font-normal leading-normal max-h-32 overflow-y-auto prose prose-sm prose-invert max-w-none mb-2 border border-slate-700 p-2 rounded bg-slate-900">
+                           ${flowiseHTML}
+                        </div>
+                        <p class="text-slate-500 text-xs mt-1">Archived: ${new Date(concept.timestamp).toLocaleString()}</p>
                     </div>
                 `;
 
@@ -64,9 +87,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             console.error("Error fetching archive:", error);
-            archiveGrid.innerHTML = `<p class="text-red-500 text-center col-span-full">Error loading archive: ${error.message}</p>`;
+            archiveGrid.innerHTML = `<p class="text-red-500 text-center col-span-full p-5">Error loading archive: ${error.message}</p>`;
         }
     }
 
+    if (typeof marked === 'undefined') {
+        console.warn("marked.js not immediately available. Markdown rendering in archive might be delayed or use fallback.");
+    }
     fetchAndDisplayArchive();
 });

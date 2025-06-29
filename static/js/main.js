@@ -1,19 +1,26 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const generateButton = document.querySelector('button#generateConceptButton'); // Add ID to button
+    const generateButton = document.querySelector('button#generateConceptButton');
     const promptTextarea = document.querySelector('textarea[placeholder="Enter your concept prompt here..."]');
-    const detailedConceptSection = document.getElementById('detailedConceptDesign'); // Add ID
-    const generatedVisualizationsSection = document.getElementById('generatedVisualizations'); // Add ID
-    const copyTextButton = document.getElementById('copyTextButton'); // Add ID
-    const saveToArchiveButton = document.getElementById('saveToArchiveButton'); // Add ID
-    const archiveButton = document.getElementById('archiveLinkButton'); // Add ID to header button
+    const detailedConceptSection = document.getElementById('detailedConceptDesign'); 
+    const generatedVisualizationsSection = document.getElementById('generatedVisualizations');
+    const copyTextButton = document.getElementById('copyTextButton'); 
+    const saveToArchiveButton = document.getElementById('saveToArchiveButton'); 
+    
+    // Header links - using direct hrefs in HTML is simpler, so JS listeners for these are commented out.
+    // const archiveLinkButton = document.getElementById('archiveLinkButtonIndex'); 
+    // const helpLinkButton = document.getElementById('headerHelpLinkIndex');
+    // if (archiveLinkButton) {
+    //     archiveLinkButton.addEventListener('click', (e) => {
+    //         e.preventDefault(); window.location.href = archiveLinkButton.href; 
+    //     });
+    // }
+    // if (helpLinkButton) {
+    //     helpLinkButton.addEventListener('click', (e) => {
+    //         e.preventDefault(); window.location.href = helpLinkButton.href;
+    //     });
+    // }
 
-    let currentConceptData = null; // To store the latest generated concept
-
-    if (archiveButton) {
-        archiveButton.addEventListener('click', () => {
-            window.location.href = '/archive.html'; // Navigate to archive page
-        });
-    }
+    let currentConceptData = null; 
 
     if (generateButton && promptTextarea) {
         generateButton.addEventListener('click', async () => {
@@ -23,11 +30,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Show loading state
-            detailedConceptSection.innerHTML = '<p class="text-center">Generating concept... Please wait.</p>';
-            generatedVisualizationsSection.innerHTML = ''; // Clear previous images
+            detailedConceptSection.innerHTML = '<p class="text-center p-4">Generating concept... Please wait.</p>';
+            generatedVisualizationsSection.innerHTML = ''; 
             generateButton.disabled = true;
             generateButton.classList.add('opacity-50', 'cursor-not-allowed');
+            if(copyTextButton) copyTextButton.disabled = true;
+            if(saveToArchiveButton) saveToArchiveButton.disabled = true;
+
 
             try {
                 const response = await fetch('/api/generate', {
@@ -40,29 +49,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+                    throw new Error(errorData.details || errorData.error || `HTTP error! status: ${response.status}`);
                 }
 
                 const data = await response.json();
-                currentConceptData = data; // Store for archive and copy
+                currentConceptData = data; 
 
-                // Display Flowise text
-                // detailedConceptSection.innerHTML = `<p class="text-[#101518] text-base font-normal leading-normal pb-3 pt-1 px-4">${data.flowise_response || "No text generated."}</p>`;
-
-                // Display Flowise text (Rendered as Markdown)
-                if (data.flowise_response) {
-                    // Ensure the container has styles that make sense for markdown content.
-                    // Tailwind's typography plugin would be great here, but for now, basic rendering.
+                if (data.flowise_response && typeof marked !== 'undefined') {
                     detailedConceptSection.innerHTML = marked.parse(data.flowise_response);
+                } else if (data.flowise_response) {
+                    // Fallback if marked.js somehow isn't loaded but we have text
+                    const p = document.createElement('p');
+                    p.textContent = data.flowise_response;
+                    detailedConceptSection.innerHTML = ''; // Clear previous
+                    detailedConceptSection.appendChild(p);
                 } else {
-                    detailedConceptSection.innerHTML = '<p class="text-center">No text generated.</p>';
+                    detailedConceptSection.innerHTML = '<p class="text-center p-4">No text generated.</p>';
                 }
 
-
-
-
-
-                // Display Gemini images
                 if (data.gemini_image_urls && data.gemini_image_urls.length > 0) {
                     const imageGrid = document.createElement('div');
                     imageGrid.className = 'grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4';
@@ -79,16 +83,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     generatedVisualizationsSection.innerHTML = '<p class="text-center p-4">No visualizations generated.</p>';
                 }
-                // Enable Copy and Save buttons
+                
                 if(copyTextButton) copyTextButton.disabled = false;
                 if(saveToArchiveButton) saveToArchiveButton.disabled = false;
 
-
             } catch (error) {
                 console.error("Error generating concept:", error);
-                detailedConceptSection.innerHTML = `<p class="text-red-500 text-center">Error: ${error.message}</p>`;
+                detailedConceptSection.innerHTML = `<p class="text-red-500 text-center p-4">Error: ${error.message}</p>`;
                 generatedVisualizationsSection.innerHTML = '';
-                 if(copyTextButton) copyTextButton.disabled = true;
+                if(copyTextButton) copyTextButton.disabled = true;
                 if(saveToArchiveButton) saveToArchiveButton.disabled = true;
             } finally {
                 generateButton.disabled = false;
@@ -98,14 +101,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (copyTextButton) {
-        copyTextButton.disabled = true; // Initially disabled
+        copyTextButton.disabled = true; 
         copyTextButton.addEventListener('click', () => {
             if (currentConceptData && currentConceptData.flowise_response) {
+                // If using marked.js, the raw markdown is in currentConceptData.flowise_response
+                // The rendered HTML is in detailedConceptSection.innerHTML
+                // For copying, usually the raw text (markdown) is preferred.
                 navigator.clipboard.writeText(currentConceptData.flowise_response)
                     .then(() => alert("Concept text copied to clipboard!"))
                     .catch(err => {
                         console.error("Failed to copy text: ", err);
-                        alert("Failed to copy text. Please try again.");
+                        // Fallback for older browsers or if clipboard API fails
+                        try {
+                            const textArea = document.createElement("textarea");
+                            textArea.value = currentConceptData.flowise_response;
+                            document.body.appendChild(textArea);
+                            textArea.focus();
+                            textArea.select();
+                            document.execCommand('copy');
+                            document.body.removeChild(textArea);
+                            alert("Concept text copied to clipboard (fallback method)!");
+                        } catch (e) {
+                            alert("Failed to copy text. Please try again or copy manually.");
+                        }
                     });
             } else {
                 alert("No concept text available to copy.");
@@ -114,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (saveToArchiveButton) {
-        saveToArchiveButton.disabled = true; // Initially disabled
+        saveToArchiveButton.disabled = true; 
         saveToArchiveButton.addEventListener('click', async () => {
             if (!currentConceptData) {
                 alert("No concept data to save. Please generate a concept first.");
@@ -142,8 +160,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error("Error saving to archive:", error);
                 alert(`Error saving to archive: ${error.message}`);
             } finally {
-                // Keep it disabled or re-enable based on desired UX
-                // For now, let's re-enable if user wants to save again (e.g. after modification if that feature is added)
                  saveToArchiveButton.disabled = false; 
                  saveToArchiveButton.classList.remove('opacity-50');
             }

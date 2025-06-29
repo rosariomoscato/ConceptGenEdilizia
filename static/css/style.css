@@ -1,0 +1,31 @@
+/* Custom styles can be added here if TailwindCSS is not sufficient */
+
+/* Example: Add a subtle animation to button clicks */
+button:active {
+  transform: translateY(1px);
+  opacity: 0.9;
+}
+
+/* Styling for line clamping (alternative to Tailwind plugin if not used/working) */
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+/* Ensure generated image containers maintain aspect ratio and content within */
+#generatedVisualizations .aspect-square, #archiveGrid .aspect-video {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Add a bit more spacing for readability in the archive page */
+#archiveGrid .flex-col > div:last-child {
+    margin-top: 0.5rem; /* space between image and text block */
+}
+
+#archiveGrid .text-xs {
+    color: #6b7280; /* Tailwind gray-500 */
+}

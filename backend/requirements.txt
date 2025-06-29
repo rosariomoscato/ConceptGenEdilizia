@@ -1,0 +1,6 @@
+Flask>=2.0
+requests>=2.25
+Flask-CORS>=3.0
+# Pillow (for image manipulation if needed by Gemini client, or if saving/serving images directly)
+# google-generativeai (once placeholder is replaced)
+# python-dotenv (optional, for .env file support)

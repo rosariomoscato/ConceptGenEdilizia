@@ -12,14 +12,16 @@
     <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
 
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="stylesheet" href="/static/css/style.css"> <!-- Link to custom CSS -->
   </head>
   <body>
     <div class="relative flex size-full min-h-screen flex-col bg-gray-50 group/design-root overflow-x-hidden" style='font-family: Inter, "Noto Sans", sans-serif;'>
       <div class="layout-container flex h-full grow flex-col">
         <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#eaedf1] px-10 py-3">
           <div class="flex items-center gap-4 text-[#101518]">
-            <div class="size-4">
-              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <a href="/" class="flex items-center gap-4 text-[#101518] hover:opacity-80 transition-opacity">
+              <div class="size-4">
+                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip0_6_543)">
                   <path
                     d="M42.1739 20.1739L27.8261 5.82609C29.1366 7.13663 28.3989 10.1876 26.2002 13.7654C24.8538 15.9564 22.9595 18.3449 20.6522 20.6522C18.3449 22.9595 15.9564 24.8538 13.7654 26.2002C10.1876 28.3989 7.13663 29.1366 5.82609 27.8261L20.1739 42.1739C21.4845 43.4845 24.5355 42.7467 28.1133 40.548C30.3042 39.2016 32.6927 37.3073 35 35C37.3073 32.6927 39.2016 30.3042 40.548 28.1133C42.7467 24.5355 43.4845 21.4845 42.1739 20.1739Z"
@@ -38,10 +40,12 @@
               </svg>
             </div>
             <h2 class="text-[#101518] text-lg font-bold leading-tight tracking-[-0.015em]">ConceptGen Edilizia</h2>
+            </a>
           </div>
           <div class="flex gap-2">
             <button
-              class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 bg-[#eaedf1] text-[#101518] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
+              id="archiveLinkButton"
+              class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 bg-[#eaedf1] text-[#101518] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 hover:bg-gray-200 transition-colors"
             >
               <div class="text-[#101518]" data-icon="Archive" data-size="20px" data-weight="regular">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
@@ -52,7 +56,7 @@
               </div>
             </button>
             <button
-              class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 bg-[#eaedf1] text-[#101518] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
+              class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 bg-[#eaedf1] text-[#101518] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 hover:bg-gray-200 transition-colors"
             >
               <div class="text-[#101518]" data-icon="Question" data-size="20px" data-weight="regular">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
@@ -78,21 +82,24 @@
             </div>
             <div class="flex px-4 py-3 justify-center">
               <button
-                class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#dce8f3] text-[#101518] text-sm font-bold leading-normal tracking-[0.015em]"
+                id="generateConceptButton"
+                class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#dce8f3] text-[#101518] text-sm font-bold leading-normal tracking-[0.015em] hover:bg-[#c8d4e0] transition-colors"
               >
                 <span class="truncate">Generate Concept</span>
               </button>
             </div>
             <h2 class="text-[#101518] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Detailed Concept Design</h2>
-            <p class="text-[#101518] text-base font-normal leading-normal pb-3 pt-1 px-4">
-              The concept design for a sustainable community center integrates green building practices with community engagement. The center features solar panels, rainwater
-              harvesting, and natural ventilation systems to minimize environmental impact. The design incorporates flexible spaces for workshops, events, and co-working, fostering
-              collaboration and learning. Outdoor areas include community gardens and recreational spaces, promoting health and well-being. The center's aesthetic blends modern
-              architecture with natural elements, creating an inviting and inspiring environment for all.
-            </p>
+            <div id="detailedConceptDesign" class="min-h-[100px]">
+              <p class="text-[#101518] text-base font-normal leading-normal pb-3 pt-1 px-4">
+                The concept design for a sustainable community center integrates green building practices with community engagement. The center features solar panels, rainwater
+                harvesting, and natural ventilation systems to minimize environmental impact. The design incorporates flexible spaces for workshops, events, and co-working, fostering
+                collaboration and learning. Outdoor areas include community gardens and recreational spaces, promoting health and well-being. The center's aesthetic blends modern
+                architecture with natural elements, creating an inviting and inspiring environment for all.
+              </p>
+            </div>
             <div class="@container">
               <div class="gap-2 px-4 flex flex-wrap justify-start">
-                <div class="flex flex-col items-center gap-2 bg-gray-50 py-2.5 text-center w-20">
+                <button id="copyTextButton" class="flex flex-col items-center gap-2 bg-gray-50 py-2.5 text-center w-auto px-3 rounded-lg hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
                   <div class="rounded-full bg-[#eaedf1] p-2.5">
                     <div class="text-[#101518]" data-icon="Copy" data-size="20px" data-weight="regular">
                       <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
@@ -103,8 +110,8 @@
                     </div>
                   </div>
                   <p class="text-[#101518] text-sm font-medium leading-normal">Copy Text</p>
-                </div>
-                <div class="flex flex-col items-center gap-2 bg-gray-50 py-2.5 text-center w-20">
+                </button>
+                <button id="saveToArchiveButton" class="flex flex-col items-center gap-2 bg-gray-50 py-2.5 text-center w-auto px-3 rounded-lg hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
                   <div class="rounded-full bg-[#eaedf1] p-2.5">
                     <div class="text-[#101518]" data-icon="Bookmark" data-size="20px" data-weight="regular">
                       <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
@@ -115,27 +122,31 @@
                     </div>
                   </div>
                   <p class="text-[#101518] text-sm font-medium leading-normal">Save to Archive</p>
-                </div>
+                </button>
               </div>
             </div>
             <h2 class="text-[#101518] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Generated Visualizations</h2>
-            <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
-              <div class="flex flex-col gap-3">
-                <div
-                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
-                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDYJBTu_BGsgCpsu_S-0LJDTQeFsPkCPqtNd0UAXUgXqj30-h714TT5qdAhUZ9oq9zLOo_ASXrQbgLIrA6ukmMFx3TEySKr9Jm5pg6-hJ9hOMc29cy5iloBPGNKi2FH4xex8fKqqYS1T4Un2i6qGonVcfWPYFpGZBgfE83sBAmEBlbU-_WiW4xh7Ht06T43PPvvaYIGTrFRycZXPilQBh6WiJssiN6bXZwLWWxqKUmybuINHrX8uqmvPy0N_7WiZoBTITvDt7fyhnY5");'
-                ></div>
-              </div>
-              <div class="flex flex-col gap-3">
-                <div
-                  class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
-                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA8jQT1Rg1U9LLAdL3jlt_zwHjNSjj7QaB8a1WHDbwKz4DwI48q4bAwgtuODTCfXSMSQ-pJQGtbS1HZyWmtuiRHptVRF-1OSWSv6rcnpeGHXmD7oOiqoF37HihRb0V9NcXIL6UlxxjYnIbXc-GyIOlnwEaMGz17xdLIAfidHYud5AAgmBznSkgiFfBaNBVOTxIBbym99ogOkCZ_pkerrvHfXSu8MEvu98bIZcHYx10qU46XR8hpmxzgVNS9X_GGC0QulwOVK8AOE8ud");'
-                ></div>
+            <div id="generatedVisualizations" class="min-h-[200px]">
+              <!-- Placeholder images, will be replaced by JS -->
+              <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
+                <div class="flex flex-col gap-3">
+                  <div
+                    class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDYJBTu_BGsgCpsu_S-0LJDTQeFsPkCPqtNd0UAXUgXqj30-h714TT5qdAhUZ9oq9zLOo_ASXrQbgLIrA6ukmMFx3TEySKr9Jm5pg6-hJ9hOMc29cy5iloBPGNKi2FH4xex8fKqqYS1T4Un2i6qGonVcfWPYFpGZBgfE83sBAmEBlbU-_WiW4xh7Ht06T43PPvvaYIGTrFRycZXPilQBh6WiJssiN6bXZwLWWxqKUmybuINHrX8uqmvPy0N_7WiZoBTITvDt7fyhnY5");'
+                  ></div>
+                </div>
+                <div class="flex flex-col gap-3">
+                  <div
+                    class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA8jQT1Rg1U9LLAdL3jlt_zwHjNSjj7QaB8a1WHDbwKz4DwI48q4bAwgtuODTCfXSMSQ-pJQGtbS1HZyWmtuiRHptVRF-1OSWSv6rcnpeGHXmD7oOiqoF37HihRb0V9NcXIL6UlxxjYnIbXc-GyIOlnwEaMGz17xdLIAfidHYud5AAgmBznSkgiFfBaNBVOTxIBbym99ogOkCZ_pkerrvHfXSu8MEvu98bIZcHYx10qU46XR8hpmxzgVNS9X_GGC0QulwOVK8AOE8ud");'
+                  ></div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <script src="/static/js/main.js"></script> <!-- Link to the JavaScript file -->
   </body>
 </html>

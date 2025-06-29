@@ -47,7 +47,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 currentConceptData = data; // Store for archive and copy
 
                 // Display Flowise text
-                detailedConceptSection.innerHTML = `<p class="text-[#101518] text-base font-normal leading-normal pb-3 pt-1 px-4">${data.flowise_response || "No text generated."}</p>`;
+                // detailedConceptSection.innerHTML = `<p class="text-[#101518] text-base font-normal leading-normal pb-3 pt-1 px-4">${data.flowise_response || "No text generated."}</p>`;
+
+                // Display Flowise text (Rendered as Markdown)
+                if (data.flowise_response) {
+                    // Ensure the container has styles that make sense for markdown content.
+                    // Tailwind's typography plugin would be great here, but for now, basic rendering.
+                    detailedConceptSection.innerHTML = marked.parse(data.flowise_response);
+                } else {
+                    detailedConceptSection.innerHTML = '<p class="text-center">No text generated.</p>';
+                }
+
+
+
+
 
                 // Display Gemini images
                 if (data.gemini_image_urls && data.gemini_image_urls.length > 0) {
@@ -131,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } finally {
                 // Keep it disabled or re-enable based on desired UX
                 // For now, let's re-enable if user wants to save again (e.g. after modification if that feature is added)
-                 saveToArchiveButton.disabled = false;
+                 saveToArchiveButton.disabled = false; 
                  saveToArchiveButton.classList.remove('opacity-50');
             }
         });

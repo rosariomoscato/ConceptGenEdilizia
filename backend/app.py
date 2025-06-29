@@ -29,12 +29,14 @@ def query_flowise(prompt_text):
     headers = {"Authorization": f"Bearer {FLOWISE_BEARER_TOKEN}"}
     payload = {"question": prompt_text}
     try:
-        response = requests.post(FLOWISE_API_URL, headers=headers, json=payload, timeout=30) # Added timeout
+        #response = requests.post(FLOWISE_API_URL, headers=headers, json=payload, timeout=30) # Added timeout
+        response = requests.post(FLOWISE_API_URL, headers=headers, json=payload, timeout=90) # Increased timeout to 90 seconds
+
         response.raise_for_status()  # Raise an exception for bad status codes
-        return response.json()
+        return response.json()    
     except requests.exceptions.Timeout:
-        print(f"Timeout error querying Flowise for: {prompt_text}")
-        return {"error": "Flowise request timed out"}
+        print(f"Timeout error querying Flowise for: {prompt_text} (after 90 seconds)")
+        return {"error": "Flowise request timed out (90s)"}
     except requests.exceptions.RequestException as e:
         print(f"Error querying Flowise: {e}")
         return {"error": str(e)}

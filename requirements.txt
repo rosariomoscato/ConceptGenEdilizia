@@ -1,4 +1,0 @@
-Flask
-requests
-google-generativeai
-Flask-CORS

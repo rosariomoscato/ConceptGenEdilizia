@@ -1,3 +1,4 @@
+#Rosario Moscato: giugno 2025
 import os
 import json
 import requests
